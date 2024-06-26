@@ -47,21 +47,6 @@ class Model():
 def random_number_generator(low, high):
     return random.randint(low, high)
 
-def setup_sidebar() -> tuple:
-    """
-    Sets up the sidebar configuration for the Streamlit application.
-
-    Returns:
-        tuple: Contains API key entered by the user, model choice, and available tools.
-    """
-    st.set_page_config(page_title="AI Guessing Game", page_icon="🚀")
-    
-    true_number = st.sidebar.text_input("Enter the Number to be Guessed", type="password")
-    model_choice = st.sidebar.radio(
-        "Choose a model:", ("Non-LLM", "LLM"))
-
-    return model_choice, true_number
-
 def ai_message(msg: str):
     """
     Displays a message from the Computer in the chat.
