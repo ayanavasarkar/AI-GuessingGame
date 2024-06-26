@@ -4,45 +4,6 @@ import random, spacy
 from tensorflow.keras.preprocessing import text, sequence
 import numpy as np
 
-class Model():
-    def __init__(self) -> None:
-        max_features = 20000
-        self.max_text_length = 512
-        self.tokenizer = text.Tokenizer(max_features)
-
-    def load_spacy(self):
-        self.nlp = spacy.load("en_core_web_lg")
-        self.cold = self.nlp(u'cold')
-        self.hot = self.nlp(u'hot')
-
-    def get_similarity_indicator(self, text):
-        
-        text_embedding = self.nlp(text)
-        c = self.cold.similarity(text_embedding)
-        h = self.hot.similarity(text_embedding)
-        if c>h:
-            return 0
-        return 1
-
-    def load_cnn_model(self):
-        self.model = tf.keras.models.load_model("1dcnn_glove.h5")   
-    
-    def get_indicator(self, text):
-        x_test = self.tokenize_texts(text)
-        pred = self.model_predict(x_test)
-        print("Predictions - ", pred)
-        return int(np.mean(pred))
-
-    def tokenize_texts(self, text):
-        x_test_tokenized = self.tokenizer.texts_to_sequences(text)
-        x_test = sequence.pad_sequences(x_test_tokenized,maxlen=self.max_text_length)
-        return x_test
-    
-    def model_predict(self, x):
-        y_pred = self.model.predict(x)
-        y_pred = np.array( [ np.argmax (y) for y in y_pred ] )
-        return y_pred
-
 
 def random_number_generator(low, high):
     return random.randint(low, high)
@@ -58,35 +19,45 @@ def ai_message(msg: str):
 
 
 def main():
+    # Human Number
     true_number = int(input("Enter value:"))
     prompt = None
 
+    # Define the Variables and the models
     low, high = 1, 100
     model = Model()
     model.load_spacy()
 
+    # Initial Computer Guess is 50
     comp_guess, total_tries = 50, 0
     guess = False
 
+    # Loop over the computer guesses until the computer guesses correctly.
     while guess is False:
-        
         ai_message(comp_guess)
-        print(low, high)
+        # Check if the guess is the correct number
         if comp_guess == true_number:
             total_tries += 1
             guess = True
             ai_message("Correct Guess")
+        # Else give hints and update the variables
         else:
             prompt = input("Hint = ")
+            # Get the SImilarity or the Model results
             indicator = model.get_similarity_indicator(prompt)
-            print(indicator)
             total_tries+=1
+            # If the model predicted indicator is "HOT"
             if indicator == 1:
+                # Update the lower value of the range for the computer to guess
                 low = comp_guess
+            # If the model predicted indicator is "COLD"
             else:
+                # Update the higher boundary for the computer guess
                 high = comp_guess
+        # Generate random number between [low, high] as the computer guess
         comp_guess = random_number_generator(low, high)    
-            
+
+    # SUccess Messages
     ai_message(f"Computer Guess correctly in {total_tries}")
     ai_message(f"Game Over...")
         
