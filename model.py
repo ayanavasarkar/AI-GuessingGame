@@ -28,7 +28,6 @@ class Model():
         """
         Loads a pre-trained Sentence Transformer.
         """
-        from sentence_transformers import SentenceTransformer, util
         self.transformer = SentenceTransformer('distilbert-base-nli-mean-tokens')
         self.h_enc, self.c_enc = self.transformer.encode("hot"), self.transformer.encode("cold")
 
@@ -74,6 +73,7 @@ class Model():
             int: The mean prediction as an integer.
         """
         x_test = self.tokenize_texts(text)
+        x_test = sequence.pad_sequences(x_test, maxlen=self.max_text_length)
         pred = self.model_predict(x_test)
         print("Predictions - ", pred)
         return int(np.mean(pred))
