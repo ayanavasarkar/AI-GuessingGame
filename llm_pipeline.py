@@ -76,7 +76,6 @@ def main(api_key):
     print("---------------------------- We are using AI agents to run this Human vs Computer Game ----------------------------")
     print("-------------------------------------------------------------------------------------------------------------------")
 
-    
     if not api_key:
         print("You cannot proceed without an api key")
         exit(0)
@@ -113,7 +112,7 @@ def main(api_key):
             prompt = input("Hint - ")
             ai.ai_task(prompt)
             answer = ai.ai_crew()
-            print(answer)
+            # print(answer)
             total_tries+=1
             if answer == "hot":
                 # Update the lower value of the range for the computer to guess
@@ -125,15 +124,18 @@ def main(api_key):
         # Generate random number between [low, high] as the computer guess
         comp_guess = random_number_generator(low, high)
             
-    print(total_tries)
+    # print(total_tries)
     return total_tries
 
 # Execute the main function
 if __name__ == "__main__":
     results = []
     api_key = input("Enter your model API Key: ")
+
     for i in range(5):
         results.append(main(api_key))
     
     print("Mean == ", statistics.mean(results))
     print("STD == ", statistics.stdev(results))
+    
+#0.9677914110429447 0.9688427299703264 0.9678407350689127
