@@ -2,4 +2,4 @@
 *.ipynb_checkpoints
 *.txt
 *.h5
-gui_game.py
+gui_game*.py

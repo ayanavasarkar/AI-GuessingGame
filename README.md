@@ -18,6 +18,26 @@ the computer’s guesses.
 number of guesses to solution, and correctness of interpretation of the human’s
 response.
 
+
+## Files in this Repo:
+-  experiments.ipynb -> Jupyter Notebook containing all the experiments on embedding text and building CNN, Spacy based similarities and SentenTransformer. It also contains the evaluations of all the approaches discussed below.
+
+- non_llm.py -> The Non-LLM pipeline that can be used for running the guessing game. We can run the game either by choosing 1-D CNN, or Spacy based embedding with similarity or SentenceTransformer Embeddings with similarity.
+
+- model.py -> The util functions to load the embeddings, embed the text and calculate the similarity metrics.
+
+- llm_pipeline.py -> The LLM pipeline that can be used for running the guessing game using custom-built AI-agents.
+
+- eval_llm.py -> The python script for running evaluation of the LLM based pipeline.
+
+- data -> Folder for storing the trained models or data.
+
+### How to run the Repo
+
+* Install all the dependencies using the `requirements.txt`
+
+* To run the Non-LLM pipeline: 
+
 ## Approach - 1 (Without LLMs)
 
 ### 1-Dimensional CNN with Glove Embeddings
@@ -39,4 +59,6 @@ Then we are going to:
 - Then we compare the similarity score between the user entered text hint and the words "HOT" and "COLD" respectively.
 - Then we take the maximum similarity score based on whether it is "HOT" or "COLD".
 
-## Approach - 2 (With LLMs)
+## Approach - 2 (With LLMs) [BEST]
+
+In this approach, we use open-sourced Llama model based AI-agents to classify a hint as "hot" or "cold" and provide the required hint based on the output of the computer guess. For this, we used the [Groq Cloud](https://console.groq.com/playground) based Llama deployment, which is free currently.  Further, we have used [CrewAI](https://www.crewai.com/) open sourced library along with LangChain for creating all AI-agents using their crew-based AI agent orchestration flow.

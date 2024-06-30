@@ -137,5 +137,3 @@ if __name__ == "__main__":
     
     print("Mean == ", statistics.mean(results))
     print("STD == ", statistics.stdev(results))
-    
-#0.9677914110429447 0.9688427299703264 0.9678407350689127

@@ -58,30 +58,33 @@ class AI_Agent():
         prompt_result = self.crew.kickoff()
         return prompt_result['final_output']
 
-api_key = "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"
+api_key = input("Api Key - ")
 ai = AI_Agent(api_key)
 ai.ai_agent()
 import pandas as pd
 df= pd.read_csv("/home/aya/AI-GuessingGame/data/train_data.csv", sep=";", encoding='cp1252')
 
+# Create the Test data and format it with Labels [0 or 1]
 data = []
 label = ""
 for i,v in df.iterrows():
     e = (v.tolist())[0].split(',')
     label = 1 if e[-1] == 'hot' else 0
-        
     data.append([e[0], e[-1], label])
 
 df = pd.DataFrame(data)
 df.columns = ['phrase', 'category', 'label']
 from sklearn.model_selection import train_test_split
+
+# Dataset Split
 train, test = train_test_split(df, test_size=0.2)
 
 x_test = test.phrase.values
 y = test.label.values
 pred = []
+
+# Iterate through the test data to predict
 for each_text in x_test:
-    # print(each_text)
     ai.ai_task(each_text)
     answer = ai.ai_crew()
     if answer == "hot":
@@ -90,6 +93,7 @@ for each_text in x_test:
         pred.append(0)
 
 
+# Plot COnfusion Matrix
 cm = confusion_matrix(y, pred)
 fig = sns.heatmap(cm, annot=True, fmt="d")
 plt.title("Confusion Matrix")
@@ -99,4 +103,5 @@ plt.show(fig)
 # breakpoint()
 # fig.savefig('temp.png', dpi=fig.dpi)
 
+# Get Test Metrics for Evaluation
 print(accuracy_score(y, pred),f1_score(y, pred))
