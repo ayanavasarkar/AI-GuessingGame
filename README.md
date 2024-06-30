@@ -36,7 +36,15 @@ response.
 
 * Install all the dependencies using the `requirements.txt`
 
-* To run the Non-LLM pipeline: 
+* To run the Non-LLM pipeline: `python3 non_llm.py`
+
+* To train the 1D CNN, use the jupyter notebook `experiments.ipynb`.
+
+* To run the LLM based pipeline: `python3 llm_pipeline.py`.
+
+* To evaluate all the approaches discussed use the jupyter notebook `experiments.ipynb`.
+
+* To specifically evaluate the LLM Pipeline run `python3 eval_llm.py`.
 
 ## Approach - 1 (Without LLMs)
 
